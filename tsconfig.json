@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "module": "ES2020",
+    "noImplicitAny": false,
+    "esModuleInterop": true,
+    "lib": ["DOM","ES2020"],
+    "jsx": "react",
+    "jsxFactory": "tsx",
+    "target": "es5",
+    "experimentalDecorators": true,
+    "preserveConstEnums": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "moduleResolution": "node",
+    "allowJs": true,
+    "outDir": "./output/dev"
+  },
+  "files": [
+    "./node_modules/@types/arcgis-js-api/index.d.ts",
+    "./node_modules/templates-common-library/index.d.ts",
+    "./node_modules/@esri/configurable-app-components/index.d.ts"
+  ],
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

@@ -1,0 +1,32 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>TypeScript Demo with ArcGIS API for JavaScript</title>
+    <link rel="stylesheet" href="main.css" />
+    <script>
+        var locationPath = location.pathname.replace(/\/[^/]*$/, "");
+        window.dojoConfig = {
+            deps: ["app"],
+            packages: [
+                {
+                    name: "app",
+                    location: locationPath + "/"
+                },
+                {
+                    name: "Components",
+                    location: locationPath + "/assets/configurable-app-components"
+                },
+                {
+                    name: "TemplatesCommonLib",
+                    location: locationPath + "/templates-common-library"
+                }
+            ]
+        };
+    </script>
+    <script src="https://js.arcgis.com/4.24/init.js"></script>
+</head>
+<body>
+    <div class="app app--loading"></div>
+</body>
+</html>

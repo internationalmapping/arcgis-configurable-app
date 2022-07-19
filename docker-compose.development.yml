@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  web:
+    build:
+      context: .
+    volumes:
+      - type: bind
+        source: ./src
+        target: /usr/src/app/src
+        consistency: cached
+    ports:
+      - "80:10001"

@@ -1,0 +1,93 @@
+{
+  "name": "arcgis-configurable-app",
+  "version": "1.0.0",
+  "description": "Demo configurable map using TypeScript with ArcGIS API 4 for JavaScript",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": " rollup -cw  --environment BUILD:development",
+    "build": "rollup -c --environment BUILD:production",
+    "up:dev": "docker-compose -f docker-compose.development.yml up -d",
+    "down:dev": "docker-compose -f docker-compose.development.yml down",
+    "lint": "eslint ./src/**/*.{ts,tsx} --quiet --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/internationalmapping/arcgis-configurable-app.git"
+  },
+  "author": "International Mapping Associates, Inc.",
+  "license": "Apache-2.0",
+  "private": true,
+  "devDependencies": {
+    "@esri/calcite-components": "^1.0.0-beta.86",
+    "@esri/configurable-app-components": "^1.6.4",
+    "@rollup/plugin-eslint": "^8.0.2",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-replace": "^4.0.0",
+    "@rollup/plugin-typescript": "^8.3.3",
+    "@types/arcgis-js-api": "^4.24.0",
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
+    "@typescript-eslint/parser": "^5.30.7",
+    "autoprefixer": "^10.4.7",
+    "eslint": "^8.20.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "postcss-css-variables": "^0.18.0",
+    "postcss-nested": "^5.0.6",
+    "prettier": "^2.7.1",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-delete": "^2.0.0",
+    "rollup-plugin-livereload": "^2.0.5",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-serve": "^2.0.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "templates-common-library": "^0.0.45",
+    "typescript": "^4.7.4"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module"
+    },
+    "rules": {
+      "@typescript-eslint/no-empty-function": 0,
+      "@typescript-eslint/explicit-module-boundary-types": 0,
+      "@typescript-eslint/no-unused-vars": 0,
+      "max-len": [
+        "warn",
+        {
+          "code": 180,
+          "ignoreComments": true
+        }
+      ],
+      "prettier/prettier": [
+        "error",
+        {
+          "printWidth": 180,
+          "tabWidth": 4,
+          "useTabs": false,
+          "semi": true,
+          "singleQuote": true,
+          "trailingComma": "all",
+          "bracketSpacing": true,
+          "jsxBracketSameLine": false,
+          "endOfLine": "auto"
+        }
+      ]
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:prettier/recommended"
+    ],
+    "plugins": [
+      "prettier",
+      "@typescript-eslint"
+    ]
+  }
+}
