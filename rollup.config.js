@@ -70,7 +70,7 @@ export default {
         }),
         copy({
             targets: [
-                { src: 'src/index.html', dest: OUTPUT },
+                { src: 'src/*.html', dest: OUTPUT },
                 { src: 'src/favicon.ico', dest: OUTPUT },
                 {
                     src: './node_modules/@esri/configurable-app-components',
