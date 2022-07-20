@@ -1,24 +1,28 @@
+import { ApplicationConfig } from 'TemplatesCommonLib/interfaces/applicationBase';
+
 export default {
     title: 'IM ArcGIS Configurable Map',
     portalUrl: 'https://www.arcgis.com',
-    oauthappid: null,
-    proxyUrl: '',
-    units: '',
+    webmap: 'default',
+    // webscene: 'default',
+    oauthappid: undefined,
+    proxyUrl: undefined,
+    units: undefined,
     helperServices: {
         geometry: {
-            url: null,
+            url: undefined,
         },
         printTask: {
             url: 'https://utility.arcgisonline.com/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task',
         },
         elevationSync: {
-            url: null,
+            url: undefined,
         },
 
         geocode: [
             {
-                url: null,
+                url: undefined,
             },
         ],
     },
-};
+} as Partial<ApplicationConfig>;

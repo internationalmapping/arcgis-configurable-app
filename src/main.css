@@ -1,14 +1,9 @@
 @import url("https://js.arcgis.com/4.24/esri/themes/light/main.css");
 
 html,
-body,
-body > .app {
+body {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
-}
-
-.app.app--loading {
-  cursor: wait;
 }

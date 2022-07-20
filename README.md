@@ -11,6 +11,62 @@ to create an out-of-the-box configurable mapping application.
 * `npm run build` - Production build. Outputs to `./output/dist`
 * `npm run lint` - Lint and fix code.
 
+## Configuration
+
+Most `ApplicationConfig` properties can be passed in as URL parameters.
+
+```typescript
+interface ApplicationConfig {
+    appid?: string;
+    center?: string;
+    components?: string;
+    embed?: boolean;
+    extent?: string;
+    find?: string;
+    group?: string | string[];
+    helperServices?: any;
+    level?: string;
+    marker?: string;
+    oauthappid?: string;
+    portalUrl?: string;
+    proxyUrl?: string;
+    title?: string;
+    viewpoint?: string;
+    webmap?: string | string[];
+    webscene?: string | string[];
+    [propName: string]: any;
+}
+```
+
+```typescript
+interface ApplicationBaseSettings {
+    localStorage?: {
+        fetch?: boolean;
+    };
+    group?: {
+        default?: string;
+        itemParams?: PortalQueryParams;
+        fetchItems?: boolean;
+        fetchInfo?: boolean;
+        fetchMultiple?: boolean;
+    };
+    portal?: {
+        fetch?: boolean;
+    };
+    urlParams?: string[];
+    webMap?: {
+        default?: string;
+        fetch?: boolean;
+        fetchMultiple?: boolean;
+    };
+    webScene?: {
+        default?: string;
+        fetch?: boolean;
+        fetchMultiple?: boolean;
+    };
+}
+```
+
 # Deployment to Portal (ArcGIS Online)
 
 This setup is compatible with both [ArcGIS Online](https://www.arcgis.com/) and [Portal for ArcGIS](https://enterprise.arcgis.com/en/portal/latest/administer/windows/what-is-portal-for-arcgis-.htm).
@@ -22,6 +78,9 @@ Before you attempt to deploy to Portal you should already have the application h
 You will need an [access token](https://developers.arcgis.com/rest/users-groups-and-items/authentication.htm#ESRI_SECTION2_DF50EDF3738343FA8E309D317F7C6CEA) to make each request. We will refer to the base Portal as `{portalURL}` and the access token as `{token}`. If you are using ArcGIS Online, your `{portalURL}` is: https://www.arcgis.com
 
 ### Create template item
+
+ESRI Documentation: [Add your template to the Portal](https://enterprise.arcgis.com/en/portal/latest/use/create-app-templates.htm#ESRI_SECTION1_FBEEDC333D2A4765BA3F807B50AD558A) or [Add your template to ArcGIS Online](https://doc.arcgis.com/en/arcgis-online/create-maps/create-app-templates.htm#ESRI_SECTION1_FBEEDC333D2A4765BA3F807B50AD558A), [Create a configuration file
+](https://doc.arcgis.com/en/arcgis-online/create-maps/create-app-templates.htm#ESRI_SECTION2_242BA51358AB45879C77C17EE9B1473A)
 
 There will only ever be one of these per organization. This item will be re-used by child applications. The template item holds the "configuration settings" which will control what settings each deployed application will have such as webmap/webscene, theming/colors, etc. This configuration exists on the "data" attribute of the item in Portal
 
@@ -201,9 +260,15 @@ You can configure your new app at:
 
 ## Resources
 
+- [@esri/templates-common-library/baseClasses/support/configParser](https://github.com/Esri/templates-common-library/blob/master/src/baseClasses/support/configParser.MD)
+- https://github.com/Esri/templates-common-library/blob/master/src/baseClasses/support/urlUtils.MD
+- https://github.com/Esri/templates-common-library/blob/master/src/baseClasses/support/itemUtils.MD
+- https://github.com/Esri/templates-common-library/blob/master/src/baseClasses/support/domHelper.MD
+- [@esri/templates-common-library/a11yUtils.ts - setupLiveRegion](https://github.com/Esri/templates-common-library/blob/master/src/structuralFunctionality/a11yUtils.ts#L11)
 - [@esri/templates-common-library](https://www.npmjs.com/package/templates-common-library)
 - [@esri/application-base-js: ApplicationBase](https://github.com/Esri/application-base-js)
 - [Esri/configurable-app-examples-4x-js](https://github.com/Esri/configurable-app-examples-4x-js)
+- https://developers.arcgis.com/javascript/latest/sample-code/widgets-custom-widget/#register-the-message-bundle
 
 #### Portal for ArcGIS
 
@@ -212,8 +277,23 @@ You can configure your new app at:
 #### ArcGIS Online
 
 - [Create configurable app templates](https://doc.arcgis.com/en/arcgis-online/create-maps/create-app-templates.htm)
+- [Create configurable app templates](https://enterprise.arcgis.com/en/portal/latest/use/create-app-templates.htm)
 - [Register the app template/Add your template to ArcGIS Online](https://doc.arcgis.com/en/arcgis-online/create-maps/create-app-templates.htm#ESRI_SECTION1_FBEEDC333D2A4765BA3F807B50AD558A)
 - [Making your app configurable](https://doc.arcgis.com/en/arcgis-online/create-maps/create-app-templates.htm#ESRI_SECTION1_B35BA8F76A7745DFA99BBCC8F2A54680)
 - [Example configuration file](https://doc.arcgis.com/en/arcgis-online/create-maps/create-app-templates.htm#ESRI_SECTION2_7AD94063904D416997176D17BB89447D)
 - [Associate the configuration information with the template item](https://doc.arcgis.com/en/arcgis-online/create-maps/create-app-templates.htm#ESRI_SECTION2_7AD94063904D416997176D17BB89447D)
+- [Creating and publishing your own configurable apps](https://www.esri.com/content/dam/esrisites/en-us/about/events/media/UC-2019/technical-workshops/tw-5833-1125.pdf)
 - [Configure search in apps](https://doc.arcgis.com/en/arcgis-online/create-maps/configure-search-in-apps.htm)
+
+#### Deprecated Configurable Apps
+
+- https://github.com/Esri/templates-common-library/blob/master/src/baseClasses/CompatibilityChecker.ts#L8
+- https://github.com/Esri/application-base-js
+- https://github.com/Esri/configurable-app-examples-4x-js
+- https://github.com/Esri/filter-gallery
+- https://github.com/Esri/zone-lookup
+- https://github.com/Esri/interactive-legend
+- https://github.com/Esri/media-template
+- https://github.com/Esri/attachment-viewer
+- https://github.com/Esri/minimalist
+- https://github.com/Esri/minimalist/blob/master/minimalist/app/utils/esriWidgetUtils.ts

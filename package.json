@@ -1,6 +1,6 @@
 {
   "name": "arcgis-configurable-app",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Demo configurable map using TypeScript with ArcGIS API 4 for JavaScript",
   "scripts": {
     "start": "npm run dev",

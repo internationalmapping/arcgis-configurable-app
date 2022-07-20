@@ -1,3 +1,5 @@
+import { ApplicationBaseSettings } from 'TemplatesCommonLib/interfaces/applicationBase';
+
 export default {
     environment: {
         isEsri: false,
@@ -30,4 +32,4 @@ export default {
         default: '86265e5a4bbb4187a59719cf134e0018',
         fetch: true,
     },
-};
+} as Partial<ApplicationBaseSettings>;

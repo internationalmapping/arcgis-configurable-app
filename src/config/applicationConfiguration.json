@@ -1,0 +1,83 @@
+{
+  "configurationSettings": [
+    {
+      "category": "<b>General</b>",
+      "fields": [
+        {
+          "type": "webscene",
+          "conditions": [
+            "featurelayer",
+            "4x"
+          ],
+          "label": "Select a scene"
+        },
+        {
+          "type": "appproxies"
+        },
+        {
+          "fieldName": "title",
+          "type": "string",
+          "placeHolder": "Title",
+          "tooltip": "Title",
+          "label": "Title"
+        },
+        {
+          "fieldName": "subtitle",
+          "type": "string",
+          "placeHolder": "Subtitle",
+          "tooltip": "Subtitle",
+          "label": "Subtitle"
+        }
+      ]
+    },
+    {
+      "category": "<b>Theme</b>",
+      "fields": [
+        {
+          "type": "options",
+          "fieldName": "theme",
+          "tooltip": "Color theme to use",
+          "label": "Color Scheme:",
+          "options": [
+            {
+              "label": "White",
+              "value": "white"
+            }
+          ]
+        },
+        {
+          "fieldName": "color",
+          "type": "color",
+          "sharedThemeProperty": "header.background",
+          "tooltip": "Color",
+          "label": "Color"
+        }
+      ]
+    },
+    {
+      "category": "<b>Options</b>",
+      "fields": [
+        {
+          "fieldName": "showBasemaps",
+          "type": "boolean",
+          "tooltip": "Enable a Basemap Gallery",
+          "label": "Enable a Basemap Gallery"
+        },
+        {
+          "fieldName": "showLayers",
+          "type": "boolean",
+          "tooltip": "Enable a Layer List",
+          "label": "Enable a Layer List"
+        }
+      ]
+    }
+  ],
+  "values": {
+    "title": "",
+    "subtitle": "",
+    "reverse": true,
+    "color": "#ffffff",
+    "showLayers": false,
+    "showBasemaps": false
+  }
+}

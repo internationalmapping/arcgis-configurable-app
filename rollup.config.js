@@ -4,6 +4,7 @@ import replace from '@rollup/plugin-replace';
 import copy from 'rollup-plugin-copy';
 import del from 'rollup-plugin-delete';
 import eslint from '@rollup/plugin-eslint';
+import builtins from 'builtin-modules';
 import livereload from 'rollup-plugin-livereload';
 import postcss from 'rollup-plugin-postcss';
 import json from '@rollup/plugin-json';
@@ -45,7 +46,7 @@ export default {
         format: 'amd',
         sourcemap: SOURCEMAP,
     },
-    external: [/^Components\/.*/, /^esri\/.*/, /^dojo\/.*/, /^dijit\/.*/, /^dojox?\/.*/, /^moment\/.*/, /^async\/.*/, /.*html$/],
+    external: [builtins, /^Components\/.*/, /^TemplatesCommonLib\/.*/, /^esri\/.*/, /^dojo\/.*/, /^dijit\/.*/, /^dojox?\/.*/, /^moment\/.*/, /^async\/.*/, /.*html$/],
     plugins: [
         replace({
             exclude: './src/config.ts',
@@ -71,6 +72,7 @@ export default {
         copy({
             targets: [
                 { src: 'src/*.html', dest: OUTPUT },
+                { src: 'src/config.json', dest: OUTPUT },
                 { src: 'src/favicon.ico', dest: OUTPUT },
                 {
                     src: './node_modules/@esri/configurable-app-components',
