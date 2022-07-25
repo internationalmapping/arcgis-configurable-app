@@ -14,6 +14,7 @@ import { join } from 'path';
 import autoprefixer from 'autoprefixer';
 import nested from 'postcss-nested';
 import variables from 'postcss-css-variables';
+import { generateSW } from 'rollup-plugin-workbox';
 
 // Builds based on environment
 const dev = process.env.BUILD === 'development';
@@ -54,6 +55,95 @@ export default {
             'process.env.PRODUCTION': JSON.stringify(!dev),
             __buildDate__: () => JSON.stringify(new Date()),
             __buildVersion: 15,
+        }),
+        generateSW({
+            swDest: join(OUTPUT, 'sw.js'),
+            globDirectory: OUTPUT,
+            mode: dev ? 'development' : 'production',
+            cacheId: 'im-app',
+            runtimeCaching: [
+                {
+                    // Match any request ends with .png, .jpg, .jpeg or .svg.
+                    urlPattern: /\.(?:png|jpg|jpeg|svg|gif)$/,
+                    // Apply a cache-first strategy.
+                    handler: 'CacheFirst',
+                    options: {
+                        cacheName: 'im-app-images',
+                        expiration: {
+                            maxEntries: 2000,
+                            maxAgeSeconds: 604800,
+                        },
+                    },
+                },
+                {
+                    // Match any fonts
+                    urlPattern: /\.(?:eot|ttf|jpeg|woff|woff2)$/,
+                    // Apply a cache-first strategy.
+                    handler: 'CacheFirst',
+                    options: {
+                        cacheName: 'im-app-fonts',
+                        expiration: {
+                            maxEntries: 2000,
+                            maxAgeSeconds: 604800,
+                        },
+                    },
+                },
+                {
+                    urlPattern: new RegExp('https://api.airtable.com'),
+                    handler: 'CacheFirst',
+                    options: {
+                        cacheName: 'im-app-airtable',
+                        expiration: {
+                            maxEntries: 2000,
+                            maxAgeSeconds: 21600,
+                        },
+                    },
+                },
+                {
+                    urlPattern: new RegExp('https://js.arcgis.com'),
+                    handler: 'CacheFirst',
+                    options: {
+                        cacheName: 'im-app-arcgis-js',
+                        expiration: {
+                            maxEntries: 2000,
+                            maxAgeSeconds: 604800,
+                        },
+                    },
+                },
+                {
+                    urlPattern: new RegExp('https://basemaps.arcgis.com'),
+                    handler: 'CacheFirst',
+                    options: {
+                        cacheName: 'im-app-arcgis-basemaps',
+                        expiration: {
+                            maxEntries: 2000,
+                            maxAgeSeconds: 604800,
+                        },
+                    },
+                },
+                {
+                    urlPattern: 'https://services\\d?\\.arcgis\\.com/.*',
+                    handler: 'CacheFirst',
+                    options: {
+                        cacheName: 'im-app-arcgis-services',
+                        expiration: {
+                            maxEntries: 2000,
+                            maxAgeSeconds: 86400,
+                        },
+                    },
+                },
+                {
+                    urlPattern: new RegExp('https://www\\.arcgis\\.com/.*'),
+                    handler: 'CacheFirst',
+                    options: {
+                        cacheName: 'im-app-arcgis-portal',
+                        expiration: {
+                            maxEntries: 2000,
+                            maxAgeSeconds: 86400,
+                        },
+                    },
+                },
+            ],
         }),
         resolve(),
         del({ targets: OUTPUT }),
