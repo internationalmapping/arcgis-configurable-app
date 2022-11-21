@@ -56,7 +56,7 @@ export default {
             __buildDate__: () => JSON.stringify(new Date()),
             __buildVersion: 15,
         }),
-        generateSW({
+        !dev ? generateSW({
             swDest: join(OUTPUT, 'sw.js'),
             globDirectory: OUTPUT,
             mode: dev ? 'development' : 'production',
@@ -144,7 +144,7 @@ export default {
                     },
                 },
             ],
-        }),
+        }) : null,
         resolve(),
         del({ targets: OUTPUT }),
         eslint({

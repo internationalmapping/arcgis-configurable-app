@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added support for runtime `config.json`
 - Added missing `./src/config/applicationConfiguration.json` which is a reference for template item (see README.md)
 
+## 1.0.1
+
+- Updated dependencies.
+- Localization.
+
 ## 1.0.0
 
 - First Release

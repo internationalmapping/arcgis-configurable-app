@@ -3,10 +3,10 @@ tsx;
 import ApplicationBase from 'TemplatesCommonLib/baseClasses/ApplicationBase';
 import _applicationBaseConfig from './config/applicationBase';
 import _applicationConfig from './config/application';
-import i18n from './nls/resources';
+import i18n from './t9n/en';
 import { createMapFromItem, createView, getConfigViewProperties, getItemTitle } from 'TemplatesCommonLib/baseClasses/support/itemUtils';
 import PortalItem from 'esri/portal/PortalItem';
-import { setPageTitle } from 'TemplatesCommonLib/baseClasses/support/domHelper';
+import { setPageDirection, setPageLocale, setPageTitle } from 'TemplatesCommonLib/baseClasses/support/domHelper';
 
 import './main.css';
 import '@esri/configurable-app-components/Screenshot/Screenshot/css/Screenshot.css';
@@ -18,6 +18,7 @@ import { setAssetPath } from '@esri/calcite-components/dist/components';
 import App from './widgets/App';
 import { ApplicationItemData } from './interfaces';
 import { ApplicationConfig } from 'TemplatesCommonLib/interfaces/applicationBase';
+import { initLocale } from './lang';
 // CDN hosted assets
 setAssetPath('https://unpkg.com/@esri/calcite-components/dist/calcite/assets');
 // setAssetPath(window.location.href);
@@ -44,41 +45,41 @@ const app = new App({
     });
 
     // ApplicationBase load
-    const { config, results } = await applicationBase.load();
-    // current appid item
-    const applicationItem: __esri.PortalItem | undefined = results.applicationItem?.value;
+    await applicationBase.load(null as any).catch((message) => {
+        if (message === 'identity-manager:not-authorized') {
+            document.body.classList.remove('configurable-application--loading');
+            document.body.classList.add('app-error');
+            (app.container as HTMLElement).innerHTML = `<h1>${i18n.root.licenseError.title}</h1><p>${i18n.root.licenseError.message}</p>`;
+        }
+    });
+
+    initLocale();
+    setPageLocale(applicationBase.locale);
+    setPageDirection(applicationBase.direction);
+
+    const { config, results } = applicationBase;
+    // console.debug({ container, applicationBase, config, results });
+
     // current app data, if present will have been mixed into config
     const applicationItemData: ApplicationItemData = results.applicationData?.value;
-    const appProxies = applicationItem && applicationItem.applicationProxies ? applicationItem.applicationProxies : [];
 
-    // webmap or webscene portal item
-    let mapItem: __esri.PortalItem | undefined;
-    if (applicationItem && applicationItemData) {
-        mapItem = new PortalItem({
-            id: applicationItemData.values.webscene || applicationItemData.values.webmap,
-        });
-        // load the webmap or webscene item
-        await mapItem.load();
-    } else {
-        // Find valid WebMaps and WebScene items
-        const { webMapItems = [], webSceneItems = [] } = results;
-        const validItems = webMapItems.concat(webSceneItems).map((response) => response.value);
-        if (validItems.length > 1) console.warn('More than one valid item found in config.');
-        // Using the first map or scene, but may not always be valid for your application
-        mapItem = validItems.length ? validItems[0] : undefined;
-    }
+    const item = new PortalItem({
+        id: applicationItemData.values.map || applicationItemData.values.webscene || applicationItemData.values.webmap || applicationBase.settings.webMap?.default,
+    });
+    await item.load();
+    config.title = config.title || getItemTitle(item);
+    setPageTitle(config.title);
+
+    // current appid item
+    const applicationItem: __esri.PortalItem | undefined = results.applicationItem?.value;
+    // const portalItemData: any = applicationBase.results.applicationData && applicationBase.results.applicationData.value.values;
+    const appProxies = applicationItem && applicationItem.applicationProxies ? applicationItem.applicationProxies : [];
 
     // console.debug({ applicationBase, app, applicationItem, applicationItemData, mapItem });
 
-    // if no valid webmap or webscene
-    if (!mapItem) throw new Error('Could not load an item to display.');
-    // update page title to map title
-    config.title = config.title || getItemTitle(mapItem);
-    setPageTitle(config.title);
-
     // create map and view
     const defaultViewProperties = getConfigViewProperties(config);
-    const map = await createMapFromItem({ item: mapItem, appProxies });
+    const map = await createMapFromItem({ item, appProxies });
     const view = await createView({
         ...defaultViewProperties,
         map,
