@@ -56,7 +56,7 @@ export default {
             __buildDate__: () => JSON.stringify(new Date()),
             __buildVersion: 15,
         }),
-        !dev ? generateSW({
+        generateSW({
             swDest: join(OUTPUT, 'sw.js'),
             globDirectory: OUTPUT,
             mode: dev ? 'development' : 'production',
@@ -89,18 +89,7 @@ export default {
                     },
                 },
                 {
-                    urlPattern: new RegExp('https://api.airtable.com'),
-                    handler: 'CacheFirst',
-                    options: {
-                        cacheName: 'im-app-airtable',
-                        expiration: {
-                            maxEntries: 2000,
-                            maxAgeSeconds: 21600,
-                        },
-                    },
-                },
-                {
-                    urlPattern: new RegExp('https://js.arcgis.com'),
+                    urlPattern: new RegExp('https://js\\.arcgis\\.com'),
                     handler: 'CacheFirst',
                     options: {
                         cacheName: 'im-app-arcgis-js',
@@ -111,8 +100,8 @@ export default {
                     },
                 },
                 {
-                    urlPattern: new RegExp('https://basemaps.arcgis.com'),
-                    handler: 'CacheFirst',
+                    urlPattern: new RegExp('https://basemaps\\.arcgis\\.com'),
+                    handler: 'StaleWhileRevalidate',
                     options: {
                         cacheName: 'im-app-arcgis-basemaps',
                         expiration: {
@@ -122,8 +111,8 @@ export default {
                     },
                 },
                 {
-                    urlPattern: 'https://services\\d?\\.arcgis\\.com/.*',
-                    handler: 'CacheFirst',
+                    urlPattern: new RegExp('https://services\\d?\\.arcgis\\.com/.*'),
+                    handler: 'StaleWhileRevalidate',
                     options: {
                         cacheName: 'im-app-arcgis-services',
                         expiration: {
@@ -134,7 +123,7 @@ export default {
                 },
                 {
                     urlPattern: new RegExp('https://www\\.arcgis\\.com/.*'),
-                    handler: 'CacheFirst',
+                    handler: 'StaleWhileRevalidate',
                     options: {
                         cacheName: 'im-app-arcgis-portal',
                         expiration: {
@@ -144,7 +133,7 @@ export default {
                     },
                 },
             ],
-        }) : null,
+        }),
         resolve(),
         del({ targets: OUTPUT }),
         eslint({
