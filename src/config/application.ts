@@ -1,7 +1,7 @@
 import { ApplicationConfig } from 'TemplatesCommonLib/interfaces/applicationBase';
 
 export default {
-    title: 'IM ArcGIS Configurable Map',
+    title: undefined,
     portalUrl: 'https://www.arcgis.com',
     webmap: 'default',
     // webscene: 'default',
