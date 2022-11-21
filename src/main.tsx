@@ -64,7 +64,7 @@ const app = new App({
     const applicationItemData: ApplicationItemData = results.applicationData?.value;
 
     const item = new PortalItem({
-        id: applicationItemData.values.map || applicationItemData.values.webscene || applicationItemData.values.webmap || applicationBase.settings.webMap?.default,
+        id: applicationItemData?.values?.map || applicationItemData?.values?.webscene || applicationItemData?.values?.webmap || applicationBase.settings.webMap?.default,
     });
     await item.load();
     config.title = config.title || getItemTitle(item);
