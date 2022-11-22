@@ -6,27 +6,6 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="main.css" />
     <script>
-        var locationPath = location.pathname.replace(/\/[^/]*$/, "");
-        window.dojoConfig = {
-            deps: ["app"],
-            packages: [
-                {
-                    name: "app",
-                    location: locationPath + "/"
-                },
-                {
-                    name: "Components",
-                    location: locationPath + "/assets/configurable-app-components"
-                },
-                {
-                    name: "TemplatesCommonLib",
-                    location: locationPath + "/templates-common-library"
-                }
-            ]
-        };
-    </script>
-    <script src="https://js.arcgis.com/4.24/init.js"></script>
-    <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js').then(
@@ -43,5 +22,77 @@
 </head>
 <body>
     <div class="app app--loading"></div>
+    <script>
+        const localeUrlParamRegex = /locale=([\w-]+)/;
+        const dojoLocale = window.location.search.match(localeUrlParamRegex) ? RegExp.$1 : undefined;
+      
+        // create or use existing global dojoConfig
+        var dojoConfig = this.dojoConfig || {};
+      
+        var config = dojoConfig;
+      
+        // set default properties
+        if (!config.hasOwnProperty("async")) {
+            config.async = true;
+        }
+        if (!config.hasOwnProperty("isDebug")) {
+            config.isDebug = true;
+        }
+        config.locale = dojoLocale;
+      
+        // add packages for libs that are not siblings to dojo
+        config.deps = ['app'];
+      
+        var packages = config.packages || [];
+      
+        function addPkgIfNotPresent(newPackage) {
+            for (var i = 0; i < packages.length; i++) {
+                var pkg = packages[i];
+                if (pkg.name === newPackage.name) {
+                    return;
+                }
+            }
+      
+            packages.push(newPackage);
+        }
+        var locationPath = location.pathname.replace(/\/[^\/]*$/, "");
+        addPkgIfNotPresent({
+            name: "app",
+            location: locationPath + "/"
+        });
+        addPkgIfNotPresent({
+            name: "Components",
+            location: locationPath + "/assets/configurable-app-components/"
+        });
+        addPkgIfNotPresent({
+            name: "TemplatesCommonLib",
+            location: locationPath + "/templates-common-library/"
+        });
+        addPkgIfNotPresent({
+            name: "dojo",
+            location: "https://js.arcgis.com/4.24/dojo/"
+        });
+        addPkgIfNotPresent({
+            name: "dijit",
+            location: "https://js.arcgis.com/4.24/dijit/"
+        });
+        addPkgIfNotPresent({
+            name: "dojox",
+            location: "https://js.arcgis.com/4.24/dojox/"
+        });
+        addPkgIfNotPresent({
+            name: "moment",
+            location: "https://js.arcgis.com/3.26/moment/",
+            main: "moment"
+        });
+        addPkgIfNotPresent({
+            name: "introJs",
+            location: "https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3",
+            main: "intro.min"
+        });
+      
+        config.packages = packages;
+        </script>
+        <script src="https://js.arcgis.com/4.25/"></script>
 </body>
 </html>
